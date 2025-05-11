@@ -1,0 +1,10 @@
+{
+  "email": "user@example.com",
+  "api_token": "your_cloudflare_api_token",
+  "ipv4_command": "curl -4 -s ifconfig.me",
+  "ipv6_command": "curl -6 -s ifconfig.me",
+  "domains": {
+    "example.com": ["@", "www"],
+    "example.net": ["@", "www"]
+  }
+}
