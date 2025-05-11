@@ -45,7 +45,7 @@ def get_dns_record(email, api_token, zone_id, record_type, dns_record):
     return None, None
 
 
-def update_dns_record(email, api_token, zone_id, record_id, record_type, dns_record, new_ip, logfile):
+def update_dns_record(email, api_token, zone_id, record_id, record_type, dns_record, new_ip):
     payload = {
         "type": record_type,
         "name": dns_record,
@@ -66,18 +66,13 @@ def update_dns_record(email, api_token, zone_id, record_id, record_type, dns_rec
     timestamp = datetime.now().strftime("%Y-%m-%dT%H:%M")
     if success:
         print(f"{dns_record} updated to: {new_ip}")
-        with open(logfile, "a") as log:
-            log.write(f"{timestamp} {record_type}: {dns_record} updated to: {new_ip}\n")
     else:
         print(f"{record_type}: {dns_record} update failed")
-        with open(logfile, "a") as log:
-            log.write(f"{timestamp} {record_type}: {dns_record} update failed\n")
 
 
 def check_records(config, ip, record_type):
     email = config["email"]
     api_token = config["api_token"]
-    logfile = config["logfile"]
     domains = config["domains"]
 
     for zone_name in domains:
@@ -95,7 +90,7 @@ def check_records(config, ip, record_type):
 
             if cf_ip != ip:
                 if record_id:
-                    update_dns_record(email, api_token, zone_id, record_id, record_type, dns_record, ip, logfile)
+                    update_dns_record(email, api_token, zone_id, record_id, record_type, dns_record, ip)
                 else:
                     print(f"No existing record found for {dns_record}")
             else:
